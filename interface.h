@@ -10,6 +10,20 @@
 class TParameters : public QWidget
 {
     Q_OBJECT
+    QLabel* stacks;
+    QLineEdit* stacks_input;
+    QLabel* volumes;
+    QLineEdit* volumes_input;
+    QLabel* width;
+    QLineEdit* width_input;
+    QLabel* height;
+    QLineEdit* height_input;
+    QLabel* width_low;
+    QLineEdit* width_low_input;
+    QLabel* width_high;
+    QLineEdit* width_high_input;
+    QLabel* shelves;
+    QLineEdit* shelves_input;
 
 public:
     TParameters(QWidget *parent = nullptr);
