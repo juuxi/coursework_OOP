@@ -10,10 +10,12 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    interface.cpp
+    interface.cpp \
+    volume.cpp
 
 HEADERS += \
-    interface.h
+    interface.h \
+    volume.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

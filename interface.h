@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QGraphicsScene>
 
 class TParameters : public QWidget
 {
