@@ -7,6 +7,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 
 class TParameters : public QWidget
 {
@@ -33,10 +34,9 @@ public slots:
     void show_parameters();
 };
 
-class TTableVisual : public QWidget
+class TTableVisual : public QGraphicsScene
 {
     Q_OBJECT
-    QLabel* tag;
 
 public:
     TTableVisual(QWidget *parent = nullptr);
@@ -53,10 +53,9 @@ public:
     ~TTableControl();
 };
 
-class TRackVisual : public QWidget
+class TRackVisual : public QGraphicsScene
 {
     Q_OBJECT
-    QLabel* tag;
 
 public:
     TRackVisual(QWidget *parent = nullptr);
@@ -81,6 +80,8 @@ class TInterface : public QWidget
     TTableControl* table_control;
     TRackVisual* rack_visual;
     TRackControl* rack_control;
+    QGraphicsView* table;
+    QGraphicsView* rack;
     QGridLayout   *layout;
 
 public:

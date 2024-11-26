@@ -64,15 +64,14 @@ void TParameters::show_parameters()
 }
 
 TTableVisual::TTableVisual(QWidget *parent)
-    : QWidget(parent)
+    : QGraphicsScene(parent)
 {
-    tag = new QLabel("Table", this);
-    tag->setGeometry(0, 0, 100, 30);
+
 }
 
 TTableVisual::~TTableVisual()
 {
-    delete tag;
+
 }
 
 TTableControl::TTableControl(QWidget *parent)
@@ -88,15 +87,14 @@ TTableControl::~TTableControl()
 }
 
 TRackVisual::TRackVisual(QWidget *parent)
-    : QWidget(parent)
+    : QGraphicsScene(parent)
 {
-    tag = new QLabel("Rack", this);
-    tag->setGeometry(0, 0, 100, 30);
+
 }
 
 TRackVisual::~TRackVisual()
 {
-    delete tag;
+
 }
 
 TRackControl::TRackControl(QWidget *parent)
@@ -112,20 +110,24 @@ TRackControl::~TRackControl()
 }
 
 TInterface::TInterface(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+      table_visual(new TTableVisual()),
+      rack_visual(new TRackVisual()),
+      table(new QGraphicsView(table_visual, this)),
+      rack(new QGraphicsView(rack_visual, this))
 {
     setWindowTitle("Главное окно");
     setFixedSize(1500, 800);
+    table->setFixedSize(500, 500);
+    rack->setFixedSize(500, 500);
     layout = new QGridLayout(this);
     param = new TParameters();
-    table_visual = new TTableVisual();
     table_control = new TTableControl();
-    rack_visual = new TRackVisual();
     rack_control = new TRackControl();
     layout->addWidget(param,0,0);
-    layout->addWidget(table_visual,0,1);
+    layout->addWidget(table,0,1);
     layout->addWidget(table_control,1,1);
-    layout->addWidget(rack_visual,0,2);
+    layout->addWidget(rack,0,2);
     layout->addWidget(rack_control,1,2);
     this->setLayout(layout);
 }
