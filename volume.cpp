@@ -7,6 +7,19 @@ Volume::Volume()
     length = 0;
 }
 
+QRectF Volume::boundingRect() const
+{
+    qreal penWidth = 1;
+    return QRectF(-10 - penWidth / 2, -10 - penWidth / 2,
+                  20 + penWidth, 20 + penWidth);
+}
+
+void Volume::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+              QWidget *widget)
+{
+    painter->drawRect(10, 10, 30, 30);
+}
+
 int Volume::get_width()
 {
     return width;

@@ -65,8 +65,13 @@ void TParameters::show_parameters()
 
 TTableVisual::TTableVisual(QWidget *parent)
     : QGraphicsScene(parent)
-{
+{    
+    ;
+}
 
+void TTableVisual::draw(Volume* vol)
+{
+    addItem(vol);
 }
 
 TTableVisual::~TTableVisual()
@@ -111,17 +116,19 @@ TRackControl::~TRackControl()
 
 TInterface::TInterface(QWidget *parent)
     : QWidget(parent),
+      param(new TParameters()),
       table_visual(new TTableVisual()),
       rack_visual(new TRackVisual()),
       table(new QGraphicsView(table_visual, this)),
-      rack(new QGraphicsView(rack_visual, this))
+      rack(new QGraphicsView(rack_visual, this)),
+      layout(new QGridLayout(this))
 {
     setWindowTitle("Главное окно");
     setFixedSize(1500, 800);
     table->setFixedSize(500, 500);
     rack->setFixedSize(500, 500);
-    layout = new QGridLayout(this);
-    param = new TParameters();
+    Volume* vol = new Volume();
+    table_visual->draw(vol);
     table_control = new TTableControl();
     rack_control = new TRackControl();
     layout->addWidget(param,0,0);

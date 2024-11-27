@@ -8,6 +8,9 @@
 #include <QPushButton>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QPainter>
+#include <QPaintEvent>
+#include "volume.h"
 
 class TParameters : public QWidget
 {
@@ -40,6 +43,7 @@ class TTableVisual : public QGraphicsScene
 
 public:
     TTableVisual(QWidget *parent = nullptr);
+    void draw(Volume*);
     ~TTableVisual();
 };
 

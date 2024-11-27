@@ -1,14 +1,19 @@
 #ifndef VOLUME_H
 #define VOLUME_H
 
+#include <QGraphicsItem>
+#include <QPainter>
 
-class Volume
+class Volume : public QGraphicsItem
 {
     int width;
     int height;
     int length;
 public:
     Volume();
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                  QWidget *widget) override;
 
     int get_width();
     int get_height();
