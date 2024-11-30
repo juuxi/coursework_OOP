@@ -127,7 +127,7 @@ TInterface::TInterface(QWidget *parent)
     setFixedSize(1500, 800);
     table->setFixedSize(500, 500);
     rack->setFixedSize(500, 500);
-    Volume* vol = new Volume();
+    Volume* vol = new Volume(15);
     table_visual->draw(vol);
     table_control = new TTableControl();
     rack_control = new TRackControl();

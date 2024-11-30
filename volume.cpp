@@ -3,8 +3,17 @@
 Volume::Volume()
 {
     width = 0;
-    height = 0;
-    length = 0;
+    height = 0; //param
+    length = 0; //param
+    is_lying = true;
+}
+
+Volume::Volume(int _width)
+{
+    width = _width;
+    height = 50; //param
+    length = 80; //param
+    is_lying = true;
 }
 
 QRectF Volume::boundingRect() const
@@ -17,7 +26,10 @@ QRectF Volume::boundingRect() const
 void Volume::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
               QWidget *widget)
 {
-    painter->drawRect(10, 10, 30, 30);
+    if (is_lying)
+        painter->drawRect(10, 10, height, width);
+    else
+        painter->drawRect(10, 10, width, height);
 }
 
 int Volume::get_width()

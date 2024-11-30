@@ -9,8 +9,10 @@ class Volume : public QGraphicsItem
     int width;
     int height;
     int length;
+    bool is_lying;
 public:
     Volume();
+    Volume(int);
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                   QWidget *widget) override;
