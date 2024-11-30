@@ -69,9 +69,19 @@ TTableVisual::TTableVisual(QWidget *parent)
     ;
 }
 
-void TTableVisual::draw(Volume* vol)
+int TTableVisual::draw(Volume* vol, int table_pos, int prev_end)
 {
+    if (vol->get_is_lying())
+        vol->setPos(table_pos, prev_end);
     addItem(vol);
+    return prev_end + vol->get_width();
+}
+
+void TTableVisual::draw_pile(Pile pile)
+{
+    int prev_end = 10;
+    for (int i = 0; i < pile.get_size(); i++)
+        prev_end = draw(pile[i], pile.get_table_pos(), prev_end);
 }
 
 TTableVisual::~TTableVisual()
@@ -127,8 +137,11 @@ TInterface::TInterface(QWidget *parent)
     setFixedSize(1500, 800);
     table->setFixedSize(500, 500);
     rack->setFixedSize(500, 500);
-    Volume* vol = new Volume(15);
-    table_visual->draw(vol);
+    piles.push_back(Pile(5));
+    for (Pile &pile : piles)
+    {
+        table_visual->draw_pile(pile);
+    }
     table_control = new TTableControl();
     rack_control = new TRackControl();
     layout->addWidget(param,0,0);

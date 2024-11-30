@@ -47,6 +47,11 @@ int Volume::get_length()
     return length;
 }
 
+bool Volume::get_is_lying()
+{
+    return is_lying;
+}
+
 void Volume::set_width(int _width)
 {
     width = _width;

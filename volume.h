@@ -20,6 +20,7 @@ public:
     int get_width();
     int get_height();
     int get_length();
+    bool get_is_lying();
 
     void set_width(int);
     void set_height(int);

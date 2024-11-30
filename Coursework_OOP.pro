@@ -11,10 +11,12 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     interface.cpp \
+    pile.cpp \
     volume.cpp
 
 HEADERS += \
     interface.h \
+    pile.h \
     volume.h
 
 # Default rules for deployment.

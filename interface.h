@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QList>
 #include <QLineEdit>
 #include <QGridLayout>
 #include <QPushButton>
@@ -10,7 +11,7 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include <QPaintEvent>
-#include "volume.h"
+#include "pile.h"
 
 class TParameters : public QWidget
 {
@@ -43,7 +44,8 @@ class TTableVisual : public QGraphicsScene
 
 public:
     TTableVisual(QWidget *parent = nullptr);
-    void draw(Volume*);
+    int draw(Volume*, int, int);
+    void draw_pile(Pile);
     ~TTableVisual();
 };
 
@@ -87,6 +89,7 @@ class TInterface : public QWidget
     QGraphicsView* table;
     QGraphicsView* rack;
     QGridLayout   *layout;
+    QList<Pile> piles;
 
 public:
     TInterface(QWidget *parent = nullptr);
