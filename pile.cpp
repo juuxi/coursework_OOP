@@ -1,10 +1,10 @@
 #include "pile.h"
 
-Pile::Pile(int _size)
+Pile::Pile(int _size, unsigned short _min_width, unsigned short _max_width)
 {
     size = _size;
-    int min_width = 10;
-    int max_width = 20;
+    min_width = _min_width;
+    max_width = _max_width;
     table_pos = 10;
     for (int i = 0; i < size; i++)
     {

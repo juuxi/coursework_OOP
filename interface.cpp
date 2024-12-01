@@ -128,7 +128,9 @@ TInterface::TInterface(QWidget *parent)
     : QWidget(parent),
       param(new TParameters()),
       table_visual(new TTableVisual()),
+      table_control(new TTableControl()),
       rack_visual(new TRackVisual()),
+      rack_control(new TRackControl()),
       table(new QGraphicsView(table_visual, this)),
       rack(new QGraphicsView(rack_visual, this)),
       layout(new QGridLayout(this))
@@ -137,13 +139,13 @@ TInterface::TInterface(QWidget *parent)
     setFixedSize(1500, 800);
     table->setFixedSize(500, 500);
     rack->setFixedSize(500, 500);
-    piles.push_back(Pile(5));
+
+    piles.push_back(Pile(5, 10, 20));
     for (Pile &pile : piles)
     {
         table_visual->draw_pile(pile);
     }
-    table_control = new TTableControl();
-    rack_control = new TRackControl();
+
     layout->addWidget(param,0,0);
     layout->addWidget(table,0,1);
     layout->addWidget(table_control,1,1);
