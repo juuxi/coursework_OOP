@@ -13,29 +13,46 @@
 #include <QPaintEvent>
 #include "pile.h"
 
-class TParameters : public QWidget
+struct Parameters
+{
+    unsigned short stacks;
+    unsigned short volumes;
+    unsigned short length;
+    unsigned short height;
+    unsigned short width_min;
+    unsigned short width_max;
+    unsigned short shelves;
+    Parameters(unsigned short _st, unsigned short _vo, unsigned short _le,
+               unsigned short _he, unsigned short _wmin, unsigned short _wmax, unsigned short _sh) :
+        stacks(_st), volumes(_vo), length(_le), height(_he),
+        width_min(_wmin), width_max(_wmax), shelves(_sh){};
+};
+
+class TParametersWindow : public QWidget
 {
     Q_OBJECT
     QLabel* stacks;
     QLineEdit* stacks_input;
     QLabel* volumes;
     QLineEdit* volumes_input;
-    QLabel* width;
-    QLineEdit* width_input;
+    QLabel* length;
+    QLineEdit* length_input;
     QLabel* height;
     QLineEdit* height_input;
-    QLabel* width_low;
-    QLineEdit* width_low_input;
-    QLabel* width_high;
-    QLineEdit* width_high_input;
+    QLabel* width_min;
+    QLineEdit* width_min_input;
+    QLabel* width_max;
+    QLineEdit* width_max_input;
     QLabel* shelves;
     QLineEdit* shelves_input;
 
+    void get_param();
+
 public:
-    TParameters(QWidget *parent = nullptr);
-    ~TParameters();
-public slots:
-    void show_parameters();
+    TParametersWindow(QWidget *parent = nullptr);
+    ~TParametersWindow();
+signals:
+    void send_params(Parameters);
 };
 
 class TTableVisual : public QGraphicsScene
@@ -81,7 +98,7 @@ public:
 class TInterface : public QWidget
 {
     Q_OBJECT
-    TParameters* param;
+    TParametersWindow* param_window;
     TTableVisual* table_visual;
     TTableControl* table_control;
     TRackVisual* rack_visual;
@@ -90,9 +107,12 @@ class TInterface : public QWidget
     QGraphicsView* rack;
     QGridLayout   *layout;
     QList<Pile> piles;
+    Parameters params;
 
 public:
     TInterface(QWidget *parent = nullptr);
     ~TInterface();
+public slots:
+    void receive_params(Parameters);
 };
 #endif // TINTERFACE_H
