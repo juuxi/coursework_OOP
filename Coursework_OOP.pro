@@ -12,11 +12,13 @@ SOURCES += \
     main.cpp \
     interface.cpp \
     pile.cpp \
+    shelf.cpp \
     volume.cpp
 
 HEADERS += \
     interface.h \
     pile.h \
+    shelf.h \
     volume.h
 
 # Default rules for deployment.

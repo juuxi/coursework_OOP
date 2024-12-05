@@ -12,6 +12,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include "pile.h"
+#include "shelf.h"
 
 struct Parameters
 {
