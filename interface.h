@@ -71,6 +71,7 @@ class TTableControl : public QWidget
 {
     Q_OBJECT
     QLabel* tag;
+    QPushButton* deal;
 
 public:
     TTableControl(QWidget *parent = nullptr);
@@ -83,6 +84,8 @@ class TRackVisual : public QGraphicsScene
 
 public:
     TRackVisual(QWidget *parent = nullptr);
+    int draw(Volume*, int, int);
+    void draw_shelf(Shelf);
     ~TRackVisual();
 };
 
@@ -107,13 +110,16 @@ class TInterface : public QWidget
     QGraphicsView* table;
     QGraphicsView* rack;
     QGridLayout   *layout;
-    QList<Pile> piles;
     Parameters params;
 
 public:
+    QList<Pile> piles;
+    QList<Shelf> shelves;
     TInterface(QWidget *parent = nullptr);
+    void update_pic();
     ~TInterface();
 public slots:
     void receive_params(Parameters);
+    void transit_vol();
 };
 #endif // TINTERFACE_H

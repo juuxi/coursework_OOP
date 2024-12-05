@@ -103,17 +103,38 @@ TTableControl::TTableControl(QWidget *parent)
 {
     tag = new QLabel("Table Control", this);
     tag->setGeometry(0, 0, 100, 30);
+
+    deal = new QPushButton("Deal", this);
+    deal->setGeometry(150, 100, 100, 30);
+
+    connect(deal, SIGNAL(pressed()), parent, SLOT(transit_vol()));
 }
 
 TTableControl::~TTableControl()
 {
     delete tag;
+    delete deal;
 }
 
 TRackVisual::TRackVisual(QWidget *parent)
     : QGraphicsScene(parent)
 {
 
+}
+
+int TRackVisual::draw(Volume* vol, int table_pos, int prev_end)
+{
+    if (vol->get_is_lying())
+        vol->setPos(table_pos, prev_end);
+    addItem(vol);
+    return prev_end + vol->get_width();
+}
+
+void TRackVisual::draw_shelf(Shelf shelf)
+{
+    int prev_end = 10;
+    for (int i = 0; i < shelf.get_size(); i++)
+        prev_end = draw(shelf[i], 100, prev_end);
 }
 
 TRackVisual::~TRackVisual()
@@ -137,7 +158,7 @@ TInterface::TInterface(QWidget *parent)
     : QWidget(parent),
       param_window(new TParametersWindow()),
       table_visual(new TTableVisual()),
-      table_control(new TTableControl()),
+      table_control(new TTableControl(this)),
       rack_visual(new TRackVisual()),
       rack_control(new TRackControl()),
       table(new QGraphicsView(table_visual, this)),
@@ -155,6 +176,8 @@ TInterface::TInterface(QWidget *parent)
     {
         table_visual->draw_pile(pile);
     }
+    shelves.push_back(Shelf(100, 1));
+    rack_visual->draw_shelf(shelves.front());
 
     layout->addWidget(param_window,0,0);
     layout->addWidget(table,0,1);
@@ -167,6 +190,26 @@ TInterface::TInterface(QWidget *parent)
 void TInterface::receive_params(Parameters _params)
 {
     params = _params; //update params in all windows
+}
+
+void TInterface::transit_vol()
+{
+    Volume* temp = piles.front().pop();
+    shelves.front().push_back(temp);
+    piles.front().get_size()--;
+    shelves.front().get_size()++;
+    update_pic();
+}
+
+void TInterface::update_pic()
+{
+    table->update();
+    rack->update();
+    for (Pile &pile : piles)
+    {
+        table_visual->draw_pile(pile);
+    }
+    rack_visual->draw_shelf(shelves.front());
 }
 
 TInterface::~TInterface()

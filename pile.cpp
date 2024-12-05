@@ -14,7 +14,7 @@ Pile::Pile(int _size, unsigned short _min_width, unsigned short _max_width)
     }
 }
 
-int Pile::get_size()
+int& Pile::get_size()
 {
     return size;
 }
@@ -22,4 +22,10 @@ int Pile::get_size()
 int Pile::get_table_pos()
 {
     return table_pos;
+}
+
+void Pile::throw_volume()
+{
+    if (!isEmpty())
+        emit(top());
 }
