@@ -66,3 +66,8 @@ void Volume::set_length(int _length)
 {
     length = _length;
 }
+
+void Volume::set_is_lying(bool _is_lying)
+{
+    is_lying = _is_lying;
+}

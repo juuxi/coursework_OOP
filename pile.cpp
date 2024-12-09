@@ -23,9 +23,3 @@ int Pile::get_table_pos()
 {
     return table_pos;
 }
-
-void Pile::throw_volume()
-{
-    if (!isEmpty())
-        emit(top());
-}

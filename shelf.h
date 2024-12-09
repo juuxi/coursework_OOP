@@ -13,8 +13,6 @@ public:
     Shelf();
     Shelf(int, int);
     int& get_size();
-public slots:
-    void catch_volume(Volume*);
 };
 
 #endif // SHELF_H

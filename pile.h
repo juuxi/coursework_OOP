@@ -14,8 +14,6 @@ public:
     Pile(int, unsigned short, unsigned short);
     int& get_size();
     int get_table_pos();
-signals:
-    void throw_volume();
 };
 
 #endif // PILE_H

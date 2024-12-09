@@ -122,10 +122,10 @@ TRackVisual::TRackVisual(QWidget *parent)
 
 }
 
-int TRackVisual::draw(Volume* vol, int table_pos, int prev_end)
+int TRackVisual::draw(Volume* vol, int shelf_pos, int prev_end)
 {
-    if (vol->get_is_lying())
-        vol->setPos(table_pos, prev_end);
+    if (!vol->get_is_lying())
+        vol->setPos(shelf_pos, prev_end);
     addItem(vol);
     return prev_end + vol->get_width();
 }
@@ -134,7 +134,10 @@ void TRackVisual::draw_shelf(Shelf shelf)
 {
     int prev_end = 10;
     for (int i = 0; i < shelf.get_size(); i++)
-        prev_end = draw(shelf[i], 100, prev_end);
+    {
+        shelf[i]->set_is_lying(false);
+        prev_end = draw(shelf[i], -100, prev_end);
+    }
 }
 
 TRackVisual::~TRackVisual()
@@ -195,6 +198,7 @@ void TInterface::receive_params(Parameters _params)
 void TInterface::transit_vol()
 {
     Volume* temp = piles.front().pop();
+    temp->set_is_lying(false);
     shelves.front().push_back(temp);
     piles.front().get_size()--;
     shelves.front().get_size()++;
@@ -204,6 +208,7 @@ void TInterface::transit_vol()
 void TInterface::update_pic()
 {
     table->update();
+    table->QGraphicsView::viewport()->update();
     rack->update();
     for (Pile &pile : piles)
     {

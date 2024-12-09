@@ -25,6 +25,7 @@ public:
     void set_width(int);
     void set_height(int);
     void set_length(int);
+    void set_is_lying(bool);
 };
 
 #endif // VOLUME_H
