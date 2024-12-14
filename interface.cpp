@@ -175,11 +175,13 @@ TInterface::TInterface(QWidget *parent)
     rack->setFixedSize(500, 500);
 
     piles.push_back(Pile(params.volumes, params.width_min, params.width_max));
+    int piles_width = 0;
     for (Pile &pile : piles)
     {
         table_visual->draw_pile(pile);
+        piles_width += pile.count_total_width();
     }
-    shelves.push_back(Shelf(100, 1));
+    shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, 1));
     rack_visual->draw_shelf(shelves.front());
 
     layout->addWidget(param_window,0,0);

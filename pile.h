@@ -14,6 +14,7 @@ public:
     Pile(int, unsigned short, unsigned short);
     int& get_size();
     int get_table_pos();
+    int count_total_width();
 };
 
 #endif // PILE_H
