@@ -25,3 +25,8 @@ int Shelf::get_max_width()
 {
     return max_width;
 }
+
+int Shelf::get_pos()
+{
+    return pos;
+}

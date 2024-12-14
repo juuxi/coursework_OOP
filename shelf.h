@@ -15,6 +15,7 @@ public:
     Shelf(int, int);
     int get_width();
     int get_size();
+    int get_pos();
     int get_max_width();
     void add(Volume* vol);
 };

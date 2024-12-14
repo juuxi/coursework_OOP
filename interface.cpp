@@ -152,7 +152,7 @@ TRackControl::TRackControl(QWidget *parent)
     tag->setGeometry(0, 0, 100, 30);
 
     output = new QLabel(this);
-    output->setGeometry(0, 100, 100, 150);
+    output->setGeometry(0, 100, 400, 30);
 }
 
 TRackControl::~TRackControl()
@@ -185,7 +185,11 @@ TInterface::TInterface(QWidget *parent)
         piles_width += pile.count_total_width();
     }
     shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, 1));
-    rack_visual->draw_shelf(shelves.front());
+    shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, 2));
+    shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, 3));
+    shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, 4));
+    for (Shelf &shelf : shelves)
+        rack_visual->draw_shelf(shelf);
 
     layout->addWidget(param_window,0,0);
     layout->addWidget(table,0,1);
@@ -202,17 +206,26 @@ void TInterface::receive_params(Parameters _params)
 
 void TInterface::transit_vol()
 {
+    rack_control->output->setText("");
     Volume* temp = piles.front().pop();
-    if (shelves.front().get_width() + temp->get_width() > shelves.front().get_max_width())
+    for (Shelf &shelf : shelves)
     {
-        rack_control->output->setText("Overload");
-        piles.front().push(temp);
-    }
-    else
-    {
-        temp->set_is_lying(false);
-        shelves.front().add(temp);
-        piles.front().get_size()--;
+        if (shelf.get_width() + temp->get_width() <= shelf.get_max_width())
+        {
+            temp->set_is_lying(false);
+            shelf.add(temp);
+            piles.front().get_size()--;
+            break;
+        }
+        else
+        {
+            QString s = rack_control->output->text();
+            s += "Overload ";
+            s += QString().setNum(shelf.get_pos());
+            s += "    ";
+            rack_control->output->setText(s);
+            piles.front().push(temp);
+        }
     }
     update_pic();
 }
@@ -222,11 +235,12 @@ void TInterface::update_pic()
     table->update();
     table->QGraphicsView::viewport()->update();
     rack->update();
+
     for (Pile &pile : piles)
-    {
         table_visual->draw_pile(pile);
-    }
-    rack_visual->draw_shelf(shelves.front());
+
+    for (Shelf &shelf : shelves)
+        rack_visual->draw_shelf(shelf);
 }
 
 TInterface::~TInterface()
