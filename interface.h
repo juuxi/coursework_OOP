@@ -95,6 +95,8 @@ class TRackControl : public QWidget
     QLabel* tag;
 
 public:
+    QLabel* output;
+
     TRackControl(QWidget *parent = nullptr);
     ~TRackControl();
 };

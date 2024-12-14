@@ -6,13 +6,17 @@
 
 class Shelf : public QList<Volume*>
 {
+    int max_width;
     int width;
     int pos;
     int size;
 public:
     Shelf();
     Shelf(int, int);
-    int& get_size();
+    int get_width();
+    int get_size();
+    int get_max_width();
+    void add(Volume* vol);
 };
 
 #endif // SHELF_H

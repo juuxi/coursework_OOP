@@ -150,6 +150,9 @@ TRackControl::TRackControl(QWidget *parent)
 {
     tag = new QLabel("Rack Control", this);
     tag->setGeometry(0, 0, 100, 30);
+
+    output = new QLabel(this);
+    output->setGeometry(0, 100, 100, 150);
 }
 
 TRackControl::~TRackControl()
@@ -200,10 +203,17 @@ void TInterface::receive_params(Parameters _params)
 void TInterface::transit_vol()
 {
     Volume* temp = piles.front().pop();
-    temp->set_is_lying(false);
-    shelves.front().push_back(temp);
-    piles.front().get_size()--;
-    shelves.front().get_size()++;
+    if (shelves.front().get_width() + temp->get_width() > shelves.front().get_max_width())
+    {
+        rack_control->output->setText("Overload");
+        piles.front().push(temp);
+    }
+    else
+    {
+        temp->set_is_lying(false);
+        shelves.front().add(temp);
+        piles.front().get_size()--;
+    }
     update_pic();
 }
 

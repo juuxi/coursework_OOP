@@ -2,9 +2,26 @@
 
 Shelf::Shelf() : width(0), pos(0), size(0) {};
 
-Shelf::Shelf(int _width, int _pos) : width(_width), pos(_pos), size(0) {};
+Shelf::Shelf(int _max_width, int _pos) : max_width(_max_width), width(0), pos(_pos), size(0) {};
 
-int& Shelf::get_size()
+void Shelf::add(Volume* vol)
+{
+    push_back(vol);
+    width += vol->get_width();
+    size++;
+}
+
+int Shelf::get_size()
 {
     return size;
+}
+
+int Shelf::get_width()
+{
+    return width;
+}
+
+int Shelf::get_max_width()
+{
+    return max_width;
 }
