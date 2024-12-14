@@ -16,16 +16,16 @@
 
 struct Parameters
 {
-    unsigned short stacks;
+    unsigned short piles;
     unsigned short volumes;
     unsigned short length;
     unsigned short height;
     unsigned short width_min;
     unsigned short width_max;
     unsigned short shelves;
-    Parameters(unsigned short _st, unsigned short _vo, unsigned short _le,
+    Parameters(unsigned short _pi, unsigned short _vo, unsigned short _le,
                unsigned short _he, unsigned short _wmin, unsigned short _wmax, unsigned short _sh) :
-        stacks(_st), volumes(_vo), length(_le), height(_he),
+        piles(_pi), volumes(_vo), length(_le), height(_he),
         width_min(_wmin), width_max(_wmax), shelves(_sh){};
 };
 

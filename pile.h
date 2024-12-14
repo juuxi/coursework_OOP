@@ -11,10 +11,11 @@ class Pile : public QStack<Volume*>
     unsigned short min_width;
     unsigned short max_width;
 public:
-    Pile(int, unsigned short, unsigned short);
+    Pile(unsigned short, unsigned short, unsigned short);
     int& get_size();
     int get_table_pos();
     int count_total_width();
+    void add_new();
 };
 
 #endif // PILE_H

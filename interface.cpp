@@ -177,17 +177,20 @@ TInterface::TInterface(QWidget *parent)
     table->setFixedSize(500, 500);
     rack->setFixedSize(500, 500);
 
-    piles.push_back(Pile(params.volumes, params.width_min, params.width_max));
+    for (int i = 0; i < params.piles; i++)
+        piles.push_back(Pile(params.width_min, params.width_max, i));
+    srand(time(NULL));
+    for (int i = 0; i < params.volumes; i++)
+        piles[rand() % 3].add_new();
     int piles_width = 0;
     for (Pile &pile : piles)
     {
         table_visual->draw_pile(pile);
         piles_width += pile.count_total_width();
     }
-    shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, 1));
-    shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, 2));
-    shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, 3));
-    shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, 4));
+
+    for (int i = 1; i <= params.shelves; i++)
+        shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, i));
     for (Shelf &shelf : shelves)
         rack_visual->draw_shelf(shelf);
 
