@@ -104,10 +104,26 @@ TTableControl::TTableControl(QWidget *parent)
     tag = new QLabel("Table Control", this);
     tag->setGeometry(0, 0, 100, 30);
 
+    deal_pile_text_start = new QLabel("Переложить из", this);
+    deal_pile_text_start->setGeometry(0, 50, 120, 40);
+
+    deal_pile_val = new QLineEdit(this);
+    deal_pile_val->setGeometry(125, 60, 30, 20);
+
+    deal_pile_text_finish = new QLabel("стопки", this);
+    deal_pile_text_finish->setGeometry(160, 50, 100, 40);
+
     deal = new QPushButton("Deal", this);
     deal->setGeometry(150, 100, 100, 30);
 
-    connect(deal, SIGNAL(pressed()), parent, SLOT(transit_vol()));
+    connect(deal, SIGNAL(pressed()), this, SLOT(process()));
+    connect(this, SIGNAL(push_volume(int)), parent, SLOT(transit_vol(int)));
+}
+
+void TTableControl::process()
+{
+    int a = deal_pile_val->text().toInt();
+    emit push_volume(a);
 }
 
 TTableControl::~TTableControl()
@@ -207,17 +223,17 @@ void TInterface::receive_params(Parameters _params)
     params = _params; //update params in all windows
 }
 
-void TInterface::transit_vol()
+void TInterface::transit_vol(int pile_num)
 {
     rack_control->output->setText("");
-    Volume* temp = piles.front().pop();
+    Volume* temp = piles[pile_num].pop();
     for (Shelf &shelf : shelves)
     {
         if (shelf.get_width() + temp->get_width() <= shelf.get_max_width())
         {
             temp->set_is_lying(false);
             shelf.add(temp);
-            piles.front().get_size()--;
+            piles[pile_num].get_size()--;
             break;
         }
         else
@@ -227,7 +243,7 @@ void TInterface::transit_vol()
             s += QString().setNum(shelf.get_pos());
             s += "    ";
             rack_control->output->setText(s);
-            piles.front().push(temp);
+            piles[pile_num].push(temp);
         }
     }
     update_pic();

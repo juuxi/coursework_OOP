@@ -71,11 +71,18 @@ class TTableControl : public QWidget
 {
     Q_OBJECT
     QLabel* tag;
+    QLabel* deal_pile_text_start;
+    QLineEdit* deal_pile_val;
+    QLabel* deal_pile_text_finish;
     QPushButton* deal;
 
 public:
     TTableControl(QWidget *parent = nullptr);
     ~TTableControl();
+public slots:
+    void process();
+signals:
+    void push_volume(int);
 };
 
 class TRackVisual : public QGraphicsScene
@@ -121,6 +128,6 @@ public:
     ~TInterface();
 public slots:
     void receive_params(Parameters);
-    void transit_vol();
+    void transit_vol(int);
 };
 #endif // TINTERFACE_H
