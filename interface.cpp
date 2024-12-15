@@ -168,7 +168,7 @@ TRackControl::TRackControl(QWidget *parent)
     tag->setGeometry(0, 0, 100, 30);
 
     output = new QLabel(this);
-    output->setGeometry(0, 100, 400, 30);
+    output->setGeometry(0, 100, 400, 60);
 }
 
 TRackControl::~TRackControl()
@@ -225,29 +225,40 @@ void TInterface::receive_params(Parameters _params)
 
 void TInterface::transit_vol(int pile_num)
 {
+    bool all_dealt_flag = true;
     rack_control->output->setText("");
     Volume* popped = piles[pile_num].pop();
+    piles[pile_num].get_size()--;
     Volume* temp = new Volume(popped->get_width());
+    for (Pile pile: piles)
+    {
+        if (pile.get_size() != 0)
+            all_dealt_flag = false;
+    }
     for (Shelf &shelf : shelves)
     {
         if (shelf.get_width() + temp->get_width() <= shelf.get_max_width())
         {
             temp->set_is_lying(false);
             shelf.add(temp);
-            piles[pile_num].get_size()--;
+            if (all_dealt_flag)
+                rack_control->output->setText("Все тома разложены");
             delete popped;
             break;
         }
         else
         {
             QString s = rack_control->output->text();
-            s += "Overload ";
+            s += "Полка ";
             s += QString().setNum(shelf.get_pos());
-            s += "    ";
+            s += " заполнена    ";
+            if (shelf.get_pos() == 2)
+                s += "\n";
             rack_control->output->setText(s);
             if (shelf.get_pos() == shelves.size() + 1)
             {
                 piles[pile_num].push(temp);
+                piles[pile_num].get_size()++;
                 delete temp;
             }
         }
