@@ -152,7 +152,7 @@ void TRackVisual::draw_shelf(Shelf shelf)
     for (int i = 0; i < shelf.get_size(); i++)
     {
         shelf[i]->set_is_lying(false);
-        prev_end = draw(shelf[i], -100, prev_end);
+        prev_end = draw(shelf[i], 10 + 100 * (shelf.get_pos() - 1), /*prev_end*/10);
     }
 }
 
@@ -226,7 +226,8 @@ void TInterface::receive_params(Parameters _params)
 void TInterface::transit_vol(int pile_num)
 {
     rack_control->output->setText("");
-    Volume* temp = piles[pile_num].pop();
+    Volume* popped = piles[pile_num].pop();
+    Volume* temp = new Volume(popped->get_width());
     for (Shelf &shelf : shelves)
     {
         if (shelf.get_width() + temp->get_width() <= shelf.get_max_width())
@@ -234,6 +235,7 @@ void TInterface::transit_vol(int pile_num)
             temp->set_is_lying(false);
             shelf.add(temp);
             piles[pile_num].get_size()--;
+            delete popped;
             break;
         }
         else
@@ -243,7 +245,11 @@ void TInterface::transit_vol(int pile_num)
             s += QString().setNum(shelf.get_pos());
             s += "    ";
             rack_control->output->setText(s);
-            piles[pile_num].push(temp);
+            if (shelf.get_pos() == shelves.size() + 1)
+            {
+                piles[pile_num].push(temp);
+                delete temp;
+            }
         }
     }
     update_pic();
