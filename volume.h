@@ -13,6 +13,7 @@ class Volume : public QGraphicsItem
 public:
     Volume();
     Volume(int);
+    Volume(int, int, int);
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                   QWidget *widget) override;

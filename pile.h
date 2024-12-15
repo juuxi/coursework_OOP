@@ -15,7 +15,7 @@ public:
     int& get_size();
     int get_table_pos();
     int count_total_width();
-    void add_new();
+    void add_new(int, int);
 };
 
 #endif // PILE_H

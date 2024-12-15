@@ -197,7 +197,7 @@ TInterface::TInterface(QWidget *parent)
         piles.push_back(Pile(params.width_min, params.width_max, i));
     srand(time(NULL));
     for (int i = 0; i < params.volumes; i++)
-        piles[rand() % 3].add_new();
+        piles[rand() % 3].add_new(params.height, params.length);
     int piles_width = 0;
     for (Pile &pile : piles)
     {
@@ -229,7 +229,7 @@ void TInterface::transit_vol(int pile_num)
     rack_control->output->setText("");
     Volume* popped = piles[pile_num].pop();
     piles[pile_num].get_size()--;
-    Volume* temp = new Volume(popped->get_width());
+    Volume* temp = new Volume(popped->get_width(), popped->get_height(), popped->get_length());
     for (Pile pile: piles)
     {
         if (pile.get_size() != 0)

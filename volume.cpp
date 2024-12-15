@@ -3,16 +3,24 @@
 Volume::Volume()
 {
     width = 0;
-    height = 0; //param
-    length = 0; //param
+    height = 0;
+    length = 0;
     is_lying = true;
 }
 
 Volume::Volume(int _width)
 {
     width = _width;
-    height = 50; //param
-    length = 80; //param
+    height = 50;
+    length = 80;
+    is_lying = true;
+}
+
+Volume::Volume(int _width, int _height, int _length)
+{
+    width = _width;
+    height = _height;
+    length = _length;
     is_lying = true;
 }
 

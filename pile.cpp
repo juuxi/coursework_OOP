@@ -32,10 +32,10 @@ int Pile::count_total_width()
     return sum;
 }
 
-void Pile::add_new()
+void Pile::add_new(int _height, int _length)
 {
     int curr_width = (rand() % (max_width - min_width + 1)) + min_width; //ширина всегда будет в нужном диапазоне
-    Volume* curr = new Volume(curr_width);
+    Volume* curr = new Volume(curr_width, _height, _length);
     push(curr);
     size++;
 }
