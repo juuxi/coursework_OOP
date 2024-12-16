@@ -47,11 +47,13 @@ class TParametersWindow : public QWidget
     QLabel* shelves;
     QLineEdit* shelves_input;
 
-    void get_param();
+    QPushButton* send_btn;
 
 public:
     TParametersWindow(QWidget *parent = nullptr);
     ~TParametersWindow();
+public slots:
+    void get_params();
 signals:
     void send_params(Parameters);
 };
@@ -125,6 +127,7 @@ public:
     QList<Shelf> shelves;
     TInterface(QWidget *parent = nullptr);
     void update_pic();
+    void make_piles_shelves();
     ~TInterface();
 public slots:
     void receive_params(Parameters);
