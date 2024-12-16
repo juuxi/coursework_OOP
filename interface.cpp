@@ -122,14 +122,29 @@ TTableControl::TTableControl(QWidget *parent)
     deal = new QPushButton("Deal", this);
     deal->setGeometry(150, 100, 100, 30);
 
+    deal_to_pile = new QRadioButton("Переложить в новую стопку", this);
+    deal_to_pile->setGeometry(50, 150, 250, 30);
+
+    deal_to_shelf = new QRadioButton("Переложить на полку", this);
+    deal_to_shelf->setGeometry(50, 200, 250, 30);
+
     connect(deal, SIGNAL(pressed()), this, SLOT(process()));
     connect(this, SIGNAL(push_volume(int)), parent, SLOT(transit_vol(int)));
+    connect(this, SIGNAL(make_new_pile(int)), parent, SLOT(imp_new_pile(int)));
 }
 
 void TTableControl::process()
 {
-    int a = deal_pile_val->text().toInt();
-    emit push_volume(a);
+    if (deal_to_shelf->isChecked())
+    {
+        int a = deal_pile_val->text().toInt();
+        emit push_volume(a);
+    }
+    if (deal_to_pile->isChecked())
+    {
+        int a = deal_pile_val->text().toInt();
+        emit make_new_pile(a);
+    }
 }
 
 TTableControl::~TTableControl()
@@ -343,5 +358,15 @@ void TInterface::make_piles_shelves()
 void TInterface::imp_hide_volume(int shelf, int vol_num)
 {
     shelves[shelf][vol_num]->set_is_hidden(true);
+    update_pic();
+}
+
+void TInterface::imp_new_pile(int pile_num)
+{
+    Volume* temp = piles[pile_num].pop();
+    piles[pile_num].get_size()--;
+    piles.push_back(Pile(params.width_min, params.width_max, piles.size()));
+    piles[piles.size() - 1].push(temp);
+    piles[piles.size() - 1].get_size()++;
     update_pic();
 }

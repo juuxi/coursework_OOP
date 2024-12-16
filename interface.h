@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QRadioButton>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPainter>
@@ -78,6 +79,9 @@ class TTableControl : public QWidget
     QLabel* deal_pile_text_finish;
     QPushButton* deal;
 
+    QRadioButton* deal_to_pile;
+    QRadioButton* deal_to_shelf;
+
 public:
     TTableControl(QWidget *parent = nullptr);
     ~TTableControl();
@@ -85,6 +89,7 @@ public slots:
     void process();
 signals:
     void push_volume(int);
+    void make_new_pile(int);
 };
 
 class TRackVisual : public QGraphicsScene
@@ -146,6 +151,7 @@ public slots:
     void receive_params(Parameters);
     void transit_vol(int);
     void imp_hide_volume(int, int);
+    void imp_new_pile(int);
 signals:
     void set_rack_output(QString);
     QString get_rack_output();
