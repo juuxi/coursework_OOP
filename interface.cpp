@@ -42,9 +42,6 @@ TParametersWindow::TParametersWindow(QWidget *parent)
     send_btn = new QPushButton("send", this);
     send_btn->setGeometry(180, 400, 100, 40);
 
-//    connect(deal, SIGNAL(pressed()), this, SLOT(process()));
-//    connect(this, SIGNAL(push_volume(int)), parent, SLOT(transit_vol(int)));
-
     connect(send_btn, SIGNAL(pressed()), this, SLOT(get_params()));
     connect(this, SIGNAL(send_params(Parameters)), parent, SLOT(receive_params(Parameters)));
 }
@@ -173,8 +170,36 @@ TRackControl::TRackControl(QWidget *parent)
     tag = new QLabel("Rack Control", this);
     tag->setGeometry(0, 0, 100, 30);
 
+    shelf_number_name = new QLabel("Взять с полки номер", this);
+    shelf_number_name->setGeometry(0, 100, 150, 30);
+
+    shelf_number_value = new QLineEdit(this);
+    shelf_number_value->setGeometry(150, 105, 40, 20);
+
+    volume_number_name = new QLabel("Взять том номер", this);
+    volume_number_name->setGeometry(0, 150, 150, 30);
+
+    volume_number_value = new QLineEdit(this);
+    volume_number_value->setGeometry(150, 155, 40, 20);
+
+    take_volume_btn = new QPushButton("Взять", this);
+    take_volume_btn->setGeometry(200, 125, 70, 30);
+
     output = new QLabel(this);
-    output->setGeometry(0, 100, 400, 60);
+    output->setGeometry(0, 200, 400, 60);
+
+    connect(take_volume_btn, SIGNAL(pressed()), this, SLOT(imp_take_volume()));
+    connect(this, SIGNAL(hide_volume(int, int)), parent, SLOT(imp_hide_volume(int, int)));
+}
+
+void TRackControl::imp_take_volume()
+{
+    if (output->text() == "Все тома разложены")
+    {
+        int a = shelf_number_value->text().toInt();
+        int b = volume_number_value->text().toInt();
+        emit(hide_volume(a,b));
+    }
 }
 
 TRackControl::~TRackControl()
@@ -299,5 +324,11 @@ void TInterface::make_piles_shelves()
     for (int i = 1; i <= params.shelves; i++)
         shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, i));
 
+    update_pic();
+}
+
+void TInterface::imp_hide_volume(int shelf, int vol_num)
+{
+    shelves[shelf][vol_num]->set_is_hidden(true);
     update_pic();
 }

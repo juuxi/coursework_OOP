@@ -103,10 +103,20 @@ class TRackControl : public QWidget
     Q_OBJECT
     QLabel* tag;
 
+    QLabel* shelf_number_name;
+    QLineEdit* shelf_number_value;
+    QLabel* volume_number_name;
+    QLineEdit* volume_number_value;
+    QPushButton* take_volume_btn;
+
 public:
     QLabel* output;
     TRackControl(QWidget *parent = nullptr);
     ~TRackControl();
+public slots:
+    void imp_take_volume();
+signals:
+    void hide_volume(int, int);
 };
 
 class TInterface : public QWidget
@@ -132,5 +142,6 @@ public:
 public slots:
     void receive_params(Parameters);
     void transit_vol(int);
+    void imp_hide_volume(int, int);
 };
 #endif // TINTERFACE_H

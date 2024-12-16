@@ -6,6 +6,7 @@ Volume::Volume()
     height = 0;
     length = 0;
     is_lying = true;
+    is_hidden = false;
 }
 
 Volume::Volume(int _width)
@@ -14,6 +15,7 @@ Volume::Volume(int _width)
     height = 50;
     length = 80;
     is_lying = true;
+    is_hidden = false;
 }
 
 Volume::Volume(int _width, int _height, int _length)
@@ -22,6 +24,7 @@ Volume::Volume(int _width, int _height, int _length)
     height = _height;
     length = _length;
     is_lying = true;
+    is_hidden = false;
 }
 
 QRectF Volume::boundingRect() const
@@ -34,6 +37,10 @@ QRectF Volume::boundingRect() const
 void Volume::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
               QWidget *widget)
 {
+    if (is_hidden)
+        painter->setPen(QPen(Qt::white));
+    else
+        painter->setPen(QPen(Qt::black));
     if (is_lying)
         painter->drawRect(10, 10, height, width);
     else
@@ -60,6 +67,11 @@ bool Volume::get_is_lying()
     return is_lying;
 }
 
+bool Volume::get_is_hidden()
+{
+    return is_hidden;
+}
+
 void Volume::set_width(int _width)
 {
     width = _width;
@@ -78,4 +90,9 @@ void Volume::set_length(int _length)
 void Volume::set_is_lying(bool _is_lying)
 {
     is_lying = _is_lying;
+}
+
+void Volume::set_is_hidden(bool _is_hidden)
+{
+    is_hidden = _is_hidden;
 }
