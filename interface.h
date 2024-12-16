@@ -109,11 +109,14 @@ class TRackControl : public QWidget
     QLineEdit* volume_number_value;
     QPushButton* take_volume_btn;
 
-public:
     QLabel* output;
+
+public:
     TRackControl(QWidget *parent = nullptr);
     ~TRackControl();
 public slots:
+    void change_output(QString);
+    QString get_output_text();
     void imp_take_volume();
 signals:
     void hide_volume(int, int);
@@ -143,5 +146,8 @@ public slots:
     void receive_params(Parameters);
     void transit_vol(int);
     void imp_hide_volume(int, int);
+signals:
+    void set_rack_output(QString);
+    QString get_rack_output();
 };
 #endif // TINTERFACE_H

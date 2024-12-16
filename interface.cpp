@@ -202,6 +202,16 @@ void TRackControl::imp_take_volume()
     }
 }
 
+void TRackControl::change_output(QString s)
+{
+    output->setText(s);
+}
+
+QString TRackControl::get_output_text()
+{
+    return output->text();
+}
+
 TRackControl::~TRackControl()
 {
     delete tag;
@@ -232,6 +242,9 @@ TInterface::TInterface(QWidget *parent)
     layout->addWidget(rack,0,2);
     layout->addWidget(rack_control,1,2);
     this->setLayout(layout);
+
+    connect(this, SIGNAL(set_rack_output(QString)), rack_control, SLOT(change_output(QString)));
+    connect(this, SIGNAL(get_rack_output()), rack_control, SLOT(get_output_text()));
 }
 
 void TInterface::receive_params(Parameters _params)
@@ -243,7 +256,7 @@ void TInterface::receive_params(Parameters _params)
 void TInterface::transit_vol(int pile_num)
 {
     bool all_dealt_flag = true;
-    rack_control->output->setText("");
+    emit (set_rack_output(""));
     Volume* popped = piles[pile_num].pop();
     piles[pile_num].get_size()--;
     Volume* temp = new Volume(popped->get_width(), popped->get_height(), popped->get_length());
@@ -259,19 +272,19 @@ void TInterface::transit_vol(int pile_num)
             temp->set_is_lying(false);
             shelf.add(temp);
             if (all_dealt_flag)
-                rack_control->output->setText("Все тома разложены");
+                emit (set_rack_output("Все тома разложены"));
             delete popped;
             break;
         }
         else
         {
-            QString s = rack_control->output->text();
+            QString s = emit(get_rack_output());
             s += "Полка ";
             s += QString().setNum(shelf.get_pos());
             s += " заполнена    ";
             if (shelf.get_pos() == 2)
                 s += "\n";
-            rack_control->output->setText(s);
+            emit (set_rack_output(s));
             if (shelf.get_pos() == shelves.size() + 1)
             {
                 piles[pile_num].push(temp);
