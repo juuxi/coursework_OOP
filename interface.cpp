@@ -5,42 +5,42 @@ TParametersWindow::TParametersWindow(QWidget *parent)
     : QWidget(parent)
 {
     stacks = new QLabel("Стопки", this);
-    stacks->setGeometry(0, 0, 180, 30);
+    stacks->setGeometry(0, 0, 210, 30);
     stacks_input = new QLineEdit("3", this);
-    stacks_input->setGeometry(180, 0, 150, 30);
+    stacks_input->setGeometry(210, 0, 150, 30);
 
     volumes = new QLabel("Тома", this);
-    volumes->setGeometry(0, 50, 180, 30);
-    volumes_input = new QLineEdit("15",this);
-    volumes_input->setGeometry(180, 50, 150, 30);
+    volumes->setGeometry(0, 50, 210, 30);
+    volumes_input = new QLineEdit("30",this);
+    volumes_input->setGeometry(210, 50, 150, 30);
 
-    length = new QLabel("Ширина тома", this);
-    length->setGeometry(0, 100, 180, 30);
+    length = new QLabel("Длина тома", this);
+    length->setGeometry(0, 100, 210, 30);
     length_input = new QLineEdit("50",this);
-    length_input->setGeometry(180, 100, 150, 30);
+    length_input->setGeometry(210, 100, 150, 30);
 
     height = new QLabel("Высота тома", this);
-    height->setGeometry(0, 150, 180, 30);
+    height->setGeometry(0, 150, 210, 30);
     height_input = new QLineEdit("80",this);
-    height_input->setGeometry(180, 150, 150, 30);
+    height_input->setGeometry(210, 150, 150, 30);
 
-    width_min = new QLabel("Нижняя ширина тома", this);
-    width_min->setGeometry(0, 200, 180, 30);
+    width_min = new QLabel("Минимальная ширина тома", this);
+    width_min->setGeometry(0, 200, 210, 30);
     width_min_input = new QLineEdit("15",this);
-    width_min_input->setGeometry(180, 200, 150, 30);
+    width_min_input->setGeometry(210, 200, 150, 30);
 
-    width_max = new QLabel("Верхняя ширина тома", this);
-    width_max->setGeometry(0, 250, 180, 30);
+    width_max = new QLabel("Максимальная ширина тома", this);
+    width_max->setGeometry(0, 250, 210, 30);
     width_max_input = new QLineEdit("25",this);
-    width_max_input->setGeometry(180, 250, 150, 30);
+    width_max_input->setGeometry(210, 250, 150, 30);
 
     shelves = new QLabel("Полки", this);
-    shelves->setGeometry(0, 300, 180, 30);
+    shelves->setGeometry(0, 300, 210, 30);
     shelves_input = new QLineEdit("4",this);
-    shelves_input->setGeometry(180, 300, 150, 30);
+    shelves_input->setGeometry(210, 300, 150, 30);
 
     send_btn = new QPushButton("send", this);
-    send_btn->setGeometry(180, 400, 100, 40);
+    send_btn->setGeometry(210, 400, 100, 40);
 
     connect(send_btn, SIGNAL(pressed()), this, SLOT(get_params()));
     connect(this, SIGNAL(send_params(Parameters)), parent, SLOT(receive_params(Parameters)));
@@ -107,9 +107,6 @@ TTableVisual::~TTableVisual()
 TTableControl::TTableControl(QWidget *parent)
     : QWidget(parent)
 {
-    tag = new QLabel("Table Control", this);
-    tag->setGeometry(0, 0, 100, 30);
-
     deal_pile_text_start = new QLabel("Переложить из", this);
     deal_pile_text_start->setGeometry(0, 50, 120, 40);
 
@@ -149,8 +146,12 @@ void TTableControl::process()
 
 TTableControl::~TTableControl()
 {
-    delete tag;
     delete deal;
+    delete deal_pile_text_start;
+    delete deal_pile_val;
+    delete deal_pile_text_finish;
+    delete deal_to_pile;
+    delete deal_to_shelf;
 }
 
 TRackVisual::TRackVisual(QWidget *parent)
@@ -172,6 +173,7 @@ int TRackVisual::draw(Volume* vol, int shelf_pos, int prev_end)
 
 void TRackVisual::draw_shelf(Shelf shelf)
 {
+    addLine(10, 200 + 100 * shelf.get_pos(), 500, 200 + 100 * shelf.get_pos());
     int prev_end = 10;
     for (int i = 0; i < shelf.get_size(); i++)
         prev_end = draw(shelf[i], 100 + 100 * shelf.get_pos(), prev_end);
@@ -185,9 +187,6 @@ TRackVisual::~TRackVisual()
 TRackControl::TRackControl(QWidget *parent)
     : QWidget(parent)
 {
-    tag = new QLabel("Rack Control", this);
-    tag->setGeometry(0, 0, 100, 30);
-
     shelf_number_name = new QLabel("Взять с полки номер", this);
     shelf_number_name->setGeometry(0, 100, 150, 30);
 
@@ -232,7 +231,12 @@ QString TRackControl::get_output_text()
 
 TRackControl::~TRackControl()
 {
-    delete tag;
+    delete shelf_number_name;
+    delete shelf_number_value;
+    delete volume_number_name;
+    delete volume_number_value;
+    delete take_volume_btn;
+    delete output;
 }
 
 TInterface::TInterface(QWidget *parent)
@@ -245,7 +249,7 @@ TInterface::TInterface(QWidget *parent)
       table(new QGraphicsView(table_visual, this)),
       rack(new QGraphicsView(rack_visual, this)),
       layout(new QGridLayout(this)),
-      params(3, 15, 50, 80, 15, 25, 4)
+      params(3, 30, 50, 80, 15, 25, 4)
 {
     setWindowTitle("Главное окно");
     setFixedSize(1500, 800);
@@ -331,6 +335,13 @@ void TInterface::update_pic()
 TInterface::~TInterface()
 {
     delete param_window;
+    delete table_visual;
+    delete table_control;
+    delete rack_visual;
+    delete rack_control;
+    delete table;
+    delete rack;
+    delete layout;
 }
 
 void TInterface::make_piles_shelves()
@@ -354,6 +365,8 @@ void TInterface::make_piles_shelves()
 
     for (int i = 1; i <= params.shelves; i++)
         shelves.push_back(Shelf(piles_width * 1.2 / params.shelves, i));
+
+    emit (set_rack_output(""));
 
     update_pic();
 }

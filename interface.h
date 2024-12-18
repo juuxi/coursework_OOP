@@ -73,7 +73,6 @@ public:
 class TTableControl : public QWidget
 {
     Q_OBJECT
-    QLabel* tag;
     QLabel* deal_pile_text_start;
     QLineEdit* deal_pile_val;
     QLabel* deal_pile_text_finish;
@@ -106,7 +105,6 @@ public:
 class TRackControl : public QWidget
 {
     Q_OBJECT
-    QLabel* tag;
 
     QLabel* shelf_number_name;
     QLineEdit* shelf_number_value;
