@@ -171,7 +171,7 @@ void TRackVisual::draw_shelf(Shelf shelf)
 {
     int prev_end = 10;
     for (int i = 0; i < shelf.get_size(); i++)
-        prev_end = draw(shelf[i], 500 - 100 * shelf.get_pos(), prev_end);
+        prev_end = draw(shelf[i], 100 + 100 * shelf.get_pos(), prev_end);
 }
 
 TRackVisual::~TRackVisual()
