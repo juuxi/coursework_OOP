@@ -87,14 +87,14 @@ TTableVisual::TTableVisual(QWidget *parent)
 int TTableVisual::draw(Volume* vol, int table_pos, int prev_end)
 {
     if (vol->get_is_lying())
-        vol->setPos(table_pos, prev_end);
+        vol->setPos(table_pos, prev_end - vol->get_width());
     addItem(vol);
-    return prev_end + vol->get_width();
+    return prev_end - vol->get_width();
 }
 
 void TTableVisual::draw_pile(Pile pile)
 {
-    int prev_end = 10;
+    int prev_end = 470;
     for (int i = 0; i < pile.get_size(); i++)
         prev_end = draw(pile[i], pile.get_table_pos(), prev_end);
 }
