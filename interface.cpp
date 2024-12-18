@@ -163,7 +163,10 @@ int TRackVisual::draw(Volume* vol, int shelf_pos, int prev_end)
 {
     if (!vol->get_is_lying())
         vol->setPos(prev_end, shelf_pos);
-    addItem(vol);
+    if (!vol->get_is_hidden())
+        addItem(vol);
+    else
+        removeItem(vol);
     return prev_end + vol->get_width();
 }
 

@@ -37,10 +37,6 @@ QRectF Volume::boundingRect() const
 void Volume::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
               QWidget *widget)
 {
-    if (is_hidden)
-        painter->setPen(QPen(Qt::white));
-    else
-        painter->setPen(QPen(Qt::black));
     if (is_lying)
         painter->drawRect(10, 10, height, width);
     else
